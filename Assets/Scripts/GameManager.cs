@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     public int vidas = 3;
 
-    public int puntos = 0;
+    public int estrellas = 0;
 
     
     void Awake()
@@ -29,11 +29,33 @@ public class GameManager : MonoBehaviour
     public void RestarVidas()
     {
         vidas--;
+
+        if (hearts == 2)
+        {
+            HeartImage2.SetActive(false);
+        }
+
+        else if (hearts == 1)
+        {
+            HeartImage2.SetActive(false);
+            HeartImage1.SetActive(false);
+        }
+
+        else (hearts == 0)
+        {
+            HeartImage2.SetActive(false);
+            HeartImage1.SetActive(false);
+            HeartImage.SetActive(false);
+            DefeatText.SetActive(true);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Estrellas()
     {
-        
+        estrellas++;
+        if (stars == 3)
+        {
+            VictoryText.SetActive(true);
+        }
     }
 }

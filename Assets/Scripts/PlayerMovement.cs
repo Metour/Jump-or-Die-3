@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     private Animator anim;
     private float dirX;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -54,14 +55,13 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Saltar", true);
         }
 
-        /*
+        
         GameManager.Instance.RestarVidas();
 
 
-        GameManager.Instance.puntos = 1;
+        GameManager.Instance.Estrellas();
         
-        Global.nivel += 1;
-        */
+        
     }
 
     void FixedUpdate()
@@ -69,11 +69,33 @@ public class PlayerMovement : MonoBehaviour
         body.velocity = new Vector2(dirX * runSpeed, body.velocity.y);
     }
 
-    /*private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Grounds")
+        if (collision.collider.tag == "Bombas")
         {
-            anim.SetBool("Saltar", false);
+            GameManager.Instance.RestarVidas();
+            //Preguntar
+            //collision.gameObject.Animator("Explote", true);
+            AudioManager.Instance.BombasSFX();
+            StartCoroutine(DestroyBomb(collision.gameObject));
         }
-    }*/
+
+        else (collision.collider.tag == "Bombas")
+        {
+            anim.SetBool("Explote", false);
+        }
+
+        if (collision.collider.tag == "Estrellas")
+        {
+            GameManager.Instance.Estrellas();
+            AudioManager.Instance.EstrellasSFX();
+            Destroy(collision.gameObject);
+        }
+    }
+    
+    IEnumerator DestroyBomb(GameObject bombs)
+    {
+        yield return new WaitForSeconds(0.46f);
+        Destroy(bombs.gameObject);
+    }
 }

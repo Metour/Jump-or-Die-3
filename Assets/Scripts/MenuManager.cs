@@ -20,4 +20,14 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Platforms");
     }
+
+    private void Vidas(GameObject hearts)
+    {
+        GameManager.Instance.RestarVidas();
+    }
+
+    private void Puntos(GameObject stars)
+    {
+        GameManager.Instance.Estrellas();
+    }
 }
