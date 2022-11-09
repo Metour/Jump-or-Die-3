@@ -9,7 +9,10 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D body;
     private Animator anim;
+    private Animator hit;
     private float dirX;
+    public GameObject bombs;
+    BoxCollider2D col;
     
 
     // Start is called before the first frame update
@@ -24,23 +27,25 @@ public class PlayerMovement : MonoBehaviour
     {
         dirX = Input.GetAxisRaw("Horizontal");
 
-        if(dirX < 0)
+        if (dirX < 0)
         {
             anim.SetBool("Correr", true);
             transform.rotation = Quaternion.Euler(0,180,0);
             
         }
-        else if(dirX > 0)
+
+        else if (dirX > 0)
         {
             anim.SetBool("Correr", true);
             transform.rotation = Quaternion.Euler(0,0,0);
         }
+
         else
         {
             anim.SetBool("Correr", false); 
         }
 
-        if(Input.GetButtonDown("Jump") && CheckGround.isGrounded)
+        if (Input.GetButtonDown("Jump") && CheckGround.isGrounded)
         {
             body.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             anim.SetBool("Saltar", true);
@@ -54,14 +59,6 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetBool("Saltar", true);
         }
-
-        
-        GameManager.Instance.RestarVidas();
-
-
-        GameManager.Instance.Estrellas();
-        
-        
     }
 
     void FixedUpdate()
@@ -74,13 +71,15 @@ public class PlayerMovement : MonoBehaviour
         if (collision.collider.tag == "Bombas")
         {
             GameManager.Instance.RestarVidas();
-            //Preguntar
-            //collision.gameObject.Animator("Explote", true);
+            Animator hitAnimator = collision.gameObject.GetComponent<Animator>();
+            BoxCollider2D col = collision.gameObject.GetComponent<BoxCollider2D>();
+            col.enabled = false;
+            hitAnimator.SetBool("Explote", true);
             AudioManager.Instance.BombasSFX();
             StartCoroutine(DestroyBomb(collision.gameObject));
         }
 
-        else (collision.collider.tag == "Bombas")
+        else if (collision.collider.tag == "Bombas")
         {
             anim.SetBool("Explote", false);
         }
@@ -90,6 +89,13 @@ public class PlayerMovement : MonoBehaviour
             GameManager.Instance.Estrellas();
             AudioManager.Instance.EstrellasSFX();
             Destroy(collision.gameObject);
+        }
+
+        if(collision.gameObject.layer == 6)
+        {
+            StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraShake>().Shake());
+            //Otra forma
+            //StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraShake>().Shake(1f, 0.05f));
         }
     }
     
