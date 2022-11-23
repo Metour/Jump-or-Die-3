@@ -8,10 +8,16 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainMenu.unity
     guid: 21f435b1d754d1e4da56e5ae105c2c43
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Platforms.unity
     guid: 09d8770094d57fd419cd8110c8ddfc0b
+  - enabled: 1
+    path: Assets/Scenes/RepasoExamen1rTrimestre.unity
+    guid: 4aab9e6eba131664fa94c8d9518777f1
+  - enabled: 1
+    path: Assets/Scenes/EndGame.unity
+    guid: d90b105a3111fb645b68897e00d89f46
   m_configObjects: {}
